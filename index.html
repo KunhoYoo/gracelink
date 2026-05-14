@@ -1,1 +1,3089 @@
-test
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>GraceLink | Medical Coordinator Support in Korea</title>
+  <meta name="description" content="GraceLink connects foreign visitors in Korea with medical coordinators for hospital communication, symptom support, and clinic guidance." />
+  <meta name="theme-color" content="#2F80ED" />
+
+  <style>
+    :root {
+      --primary-blue: #2f80ed;
+      --primary-blue-dark: #1b5fc7;
+      --primary-green: #19b98a;
+      --primary-green-dark: #0e8d69;
+      --deep-blue: #12365f;
+      --navy: #172033;
+      --text-main: #172033;
+      --text-sub: #697386;
+      --text-light: #8a94a6;
+      --bg-main: #f6f9fc;
+      --bg-soft-blue: #eaf4ff;
+      --bg-soft-green: #e9fff7;
+      --bg-soft-mint: #f1fffb;
+      --white: #ffffff;
+      --line: #e5edf5;
+      --danger: #ff5a5f;
+      --danger-bg: #fff1f1;
+      --warning: #f59e0b;
+      --success: #19b98a;
+
+      --shadow-xs: 0 4px 10px rgba(23, 32, 51, 0.04);
+      --shadow-sm: 0 10px 30px rgba(23, 32, 51, 0.08);
+      --shadow-md: 0 18px 48px rgba(23, 32, 51, 0.12);
+      --shadow-lg: 0 30px 80px rgba(23, 32, 51, 0.16);
+
+      --radius-sm: 14px;
+      --radius-md: 20px;
+      --radius-lg: 28px;
+      --radius-xl: 36px;
+
+      --header-height: 72px;
+      --max-width: 1160px;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      min-height: 100vh;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, "Apple SD Gothic Neo", "Noto Sans KR", sans-serif;
+      color: var(--text-main);
+      background:
+        radial-gradient(circle at top left, rgba(47, 128, 237, 0.12), transparent 34%),
+        radial-gradient(circle at 85% 18%, rgba(25, 185, 138, 0.13), transparent 30%),
+        var(--bg-main);
+      line-height: 1.55;
+      overflow-x: hidden;
+    }
+
+    body.no-scroll {
+      overflow: hidden;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    button,
+    input,
+    select,
+    textarea {
+      font: inherit;
+    }
+
+    button {
+      border: none;
+      cursor: pointer;
+    }
+
+    img {
+      max-width: 100%;
+      display: block;
+    }
+
+    .page {
+      width: 100%;
+      overflow: hidden;
+    }
+
+    .container {
+      width: min(100% - 40px, var(--max-width));
+      margin: 0 auto;
+    }
+
+    section {
+      scroll-margin-top: 96px;
+    }
+
+    .section {
+      padding: 92px 0;
+    }
+
+    .section-header {
+      max-width: 720px;
+      margin-bottom: 34px;
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 13px;
+      margin-bottom: 16px;
+      border: 1px solid rgba(47, 128, 237, 0.12);
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.78);
+      color: var(--primary-blue-dark);
+      font-size: 13px;
+      font-weight: 800;
+      letter-spacing: -0.01em;
+      box-shadow: var(--shadow-xs);
+    }
+
+    .eyebrow.green {
+      border-color: rgba(25, 185, 138, 0.18);
+      color: var(--primary-green-dark);
+      background: rgba(233, 255, 247, 0.78);
+    }
+
+    .section-title {
+      font-size: clamp(30px, 5vw, 48px);
+      line-height: 1.1;
+      letter-spacing: -0.055em;
+      color: var(--navy);
+      margin-bottom: 14px;
+    }
+
+    .section-desc {
+      color: var(--text-sub);
+      font-size: 17px;
+      line-height: 1.75;
+      letter-spacing: -0.015em;
+    }
+
+    .header {
+      position: fixed;
+      top: 0;
+      left: 0;
+      z-index: 1000;
+      width: 100%;
+      height: var(--header-height);
+      background: rgba(255, 255, 255, 0.74);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border-bottom: 1px solid rgba(229, 237, 245, 0.78);
+      transition: box-shadow 0.25s ease, background 0.25s ease, height 0.25s ease;
+    }
+
+    .header.scrolled {
+      background: rgba(255, 255, 255, 0.92);
+      box-shadow: 0 12px 34px rgba(23, 32, 51, 0.08);
+    }
+
+    .nav {
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 22px;
+    }
+
+    .logo {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      min-width: max-content;
+      font-weight: 900;
+      letter-spacing: -0.045em;
+      font-size: 23px;
+      color: var(--deep-blue);
+    }
+
+    .logo-mark {
+      width: 38px;
+      height: 38px;
+      display: inline-grid;
+      place-items: center;
+      border-radius: 14px;
+      color: white;
+      background:
+        linear-gradient(135deg, var(--primary-blue), var(--primary-green));
+      box-shadow: 0 12px 24px rgba(47, 128, 237, 0.24);
+      font-size: 19px;
+      font-weight: 900;
+    }
+
+    .nav-menu {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      list-style: none;
+    }
+
+    .nav-link {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 38px;
+      padding: 0 13px;
+      border-radius: 999px;
+      color: var(--text-sub);
+      font-size: 14px;
+      font-weight: 800;
+      letter-spacing: -0.018em;
+      transition: color 0.2s ease, background 0.2s ease;
+    }
+
+    .nav-link:hover,
+    .nav-link.active {
+      color: var(--primary-blue-dark);
+      background: rgba(47, 128, 237, 0.09);
+    }
+
+    .nav-cta {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 42px;
+      padding: 0 17px;
+      border-radius: 999px;
+      background: var(--navy);
+      color: white;
+      font-size: 14px;
+      font-weight: 900;
+      box-shadow: 0 12px 25px rgba(23, 32, 51, 0.17);
+      transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
+    }
+
+    .nav-cta:hover {
+      transform: translateY(-2px);
+      background: var(--primary-blue-dark);
+      box-shadow: 0 16px 32px rgba(47, 128, 237, 0.24);
+    }
+
+    .menu-toggle {
+      display: none;
+      width: 44px;
+      height: 44px;
+      border-radius: 15px;
+      background: rgba(47, 128, 237, 0.09);
+      color: var(--deep-blue);
+      position: relative;
+    }
+
+    .menu-toggle span {
+      position: absolute;
+      left: 12px;
+      width: 20px;
+      height: 2px;
+      border-radius: 99px;
+      background: currentColor;
+      transition: transform 0.24s ease, opacity 0.24s ease, top 0.24s ease;
+    }
+
+    .menu-toggle span:nth-child(1) {
+      top: 15px;
+    }
+
+    .menu-toggle span:nth-child(2) {
+      top: 21px;
+    }
+
+    .menu-toggle span:nth-child(3) {
+      top: 27px;
+    }
+
+    .menu-toggle.open span:nth-child(1) {
+      top: 21px;
+      transform: rotate(45deg);
+    }
+
+    .menu-toggle.open span:nth-child(2) {
+      opacity: 0;
+    }
+
+    .menu-toggle.open span:nth-child(3) {
+      top: 21px;
+      transform: rotate(-45deg);
+    }
+
+    .mobile-panel {
+      display: none;
+    }
+
+    .hero {
+      position: relative;
+      padding: calc(var(--header-height) + 64px) 0 82px;
+    }
+
+    .hero-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1.02fr) minmax(340px, 0.98fr);
+      align-items: center;
+      gap: 44px;
+    }
+
+    .hero-copy {
+      position: relative;
+      z-index: 2;
+    }
+
+    .hero-badges {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 24px;
+    }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      padding: 9px 13px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.8);
+      border: 1px solid rgba(229, 237, 245, 0.92);
+      box-shadow: var(--shadow-xs);
+      color: var(--text-sub);
+      font-size: 13px;
+      font-weight: 800;
+      letter-spacing: -0.015em;
+    }
+
+    .badge strong {
+      color: var(--primary-green-dark);
+    }
+
+    .hero-title {
+      max-width: 700px;
+      color: var(--navy);
+      font-size: clamp(42px, 8vw, 76px);
+      line-height: 0.98;
+      letter-spacing: -0.075em;
+      margin-bottom: 22px;
+    }
+
+    .hero-title .gradient-text {
+      display: inline-block;
+      color: transparent;
+      background: linear-gradient(120deg, var(--primary-blue), var(--primary-green));
+      -webkit-background-clip: text;
+      background-clip: text;
+    }
+
+    .hero-desc {
+      max-width: 640px;
+      color: var(--text-sub);
+      font-size: clamp(17px, 2.6vw, 20px);
+      line-height: 1.75;
+      letter-spacing: -0.02em;
+      margin-bottom: 30px;
+    }
+
+    .hero-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      align-items: center;
+      margin-bottom: 26px;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 9px;
+      min-height: 52px;
+      padding: 0 22px;
+      border-radius: 17px;
+      font-size: 15px;
+      font-weight: 900;
+      letter-spacing: -0.02em;
+      transition: transform 0.18s ease, box-shadow 0.18s ease, background 0.18s ease, border-color 0.18s ease;
+      user-select: none;
+      white-space: nowrap;
+    }
+
+    .btn:active {
+      transform: scale(0.98);
+    }
+
+    .btn-primary {
+      color: white;
+      background: linear-gradient(135deg, var(--primary-blue), var(--primary-green));
+      box-shadow: 0 18px 34px rgba(47, 128, 237, 0.26);
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 22px 42px rgba(47, 128, 237, 0.32);
+    }
+
+    .btn-secondary {
+      color: var(--deep-blue);
+      background: rgba(255, 255, 255, 0.86);
+      border: 1px solid rgba(229, 237, 245, 0.95);
+      box-shadow: var(--shadow-xs);
+    }
+
+    .btn-secondary:hover {
+      transform: translateY(-2px);
+      box-shadow: var(--shadow-sm);
+      border-color: rgba(47, 128, 237, 0.18);
+    }
+
+    .btn-dark {
+      color: white;
+      background: var(--navy);
+      box-shadow: 0 18px 34px rgba(23, 32, 51, 0.2);
+    }
+
+    .hero-note {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      max-width: 580px;
+      padding: 14px 16px;
+      border-radius: 18px;
+      background: rgba(255, 255, 255, 0.72);
+      border: 1px solid rgba(229, 237, 245, 0.9);
+      color: var(--text-sub);
+      font-size: 14px;
+      font-weight: 650;
+      box-shadow: var(--shadow-xs);
+    }
+
+    .hero-note b {
+      color: var(--danger);
+    }
+
+    .hero-visual {
+      position: relative;
+      min-height: 620px;
+      display: grid;
+      place-items: center;
+    }
+
+    .phone-shell {
+      position: relative;
+      width: min(100%, 390px);
+      min-height: 560px;
+      padding: 16px;
+      border-radius: 44px;
+      background:
+        linear-gradient(145deg, rgba(255, 255, 255, 0.98), rgba(234, 244, 255, 0.88));
+      box-shadow: var(--shadow-lg);
+      border: 1px solid rgba(255, 255, 255, 0.88);
+      overflow: hidden;
+    }
+
+    .phone-shell::before {
+      content: "";
+      position: absolute;
+      inset: 8px;
+      border-radius: 38px;
+      border: 1px solid rgba(47, 128, 237, 0.08);
+      pointer-events: none;
+    }
+
+    .phone-screen {
+      position: relative;
+      z-index: 1;
+      min-height: 528px;
+      padding: 18px;
+      border-radius: 32px;
+      background:
+        radial-gradient(circle at 10% 8%, rgba(47, 128, 237, 0.18), transparent 28%),
+        linear-gradient(180deg, #ffffff, #f7fbff);
+      overflow: hidden;
+    }
+
+    .screen-top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 18px;
+    }
+
+    .screen-logo {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-weight: 950;
+      color: var(--deep-blue);
+      letter-spacing: -0.035em;
+    }
+
+    .screen-status {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      padding: 6px 9px;
+      border-radius: 999px;
+      background: var(--bg-soft-green);
+      color: var(--primary-green-dark);
+      font-size: 11px;
+      font-weight: 900;
+    }
+
+    .screen-hero-card {
+      padding: 18px;
+      border-radius: 26px;
+      background:
+        linear-gradient(135deg, rgba(47, 128, 237, 0.98), rgba(25, 185, 138, 0.94));
+      color: white;
+      box-shadow: 0 18px 35px rgba(47, 128, 237, 0.24);
+      margin-bottom: 14px;
+    }
+
+    .screen-hero-card .mini-label {
+      display: inline-flex;
+      padding: 6px 9px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.18);
+      font-size: 11px;
+      font-weight: 900;
+      margin-bottom: 12px;
+    }
+
+    .screen-hero-card h3 {
+      font-size: 24px;
+      line-height: 1.15;
+      letter-spacing: -0.05em;
+      margin-bottom: 9px;
+    }
+
+    .screen-hero-card p {
+      color: rgba(255, 255, 255, 0.84);
+      font-size: 13px;
+      line-height: 1.6;
+      font-weight: 650;
+    }
+
+    .match-card,
+    .symptom-card,
+    .clinic-card-mini {
+      padding: 14px;
+      border-radius: 22px;
+      background: rgba(255, 255, 255, 0.92);
+      border: 1px solid rgba(229, 237, 245, 0.96);
+      box-shadow: var(--shadow-xs);
+      margin-bottom: 12px;
+    }
+
+    .match-card {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .avatar {
+      width: 48px;
+      height: 48px;
+      flex: 0 0 auto;
+      display: grid;
+      place-items: center;
+      border-radius: 18px;
+      background:
+        linear-gradient(135deg, var(--bg-soft-blue), var(--bg-soft-green));
+      font-size: 23px;
+    }
+
+    .match-card h4 {
+      font-size: 14px;
+      letter-spacing: -0.025em;
+      margin-bottom: 3px;
+    }
+
+    .match-card p {
+      font-size: 12px;
+      color: var(--text-sub);
+      font-weight: 700;
+    }
+
+    .progress-line {
+      position: relative;
+      height: 8px;
+      margin-top: 9px;
+      border-radius: 999px;
+      background: #edf4fb;
+      overflow: hidden;
+    }
+
+    .progress-line span {
+      position: absolute;
+      inset: 0 auto 0 0;
+      width: 76%;
+      border-radius: inherit;
+      background: linear-gradient(90deg, var(--primary-blue), var(--primary-green));
+    }
+
+    .symptom-card h4,
+    .clinic-card-mini h4 {
+      font-size: 14px;
+      letter-spacing: -0.025em;
+      margin-bottom: 10px;
+    }
+
+    .symptom-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 7px;
+    }
+
+    .symptom-tags span {
+      padding: 7px 9px;
+      border-radius: 999px;
+      background: var(--bg-soft-blue);
+      color: var(--primary-blue-dark);
+      font-size: 11px;
+      font-weight: 900;
+    }
+
+    .clinic-card-mini {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+    }
+
+    .clinic-card-mini p {
+      color: var(--text-sub);
+      font-size: 12px;
+      font-weight: 700;
+    }
+
+    .mini-arrow {
+      width: 34px;
+      height: 34px;
+      flex: 0 0 auto;
+      display: grid;
+      place-items: center;
+      border-radius: 14px;
+      background: var(--navy);
+      color: white;
+      font-weight: 900;
+    }
+
+    .floating-card {
+      position: absolute;
+      z-index: 3;
+      width: 170px;
+      padding: 14px;
+      border-radius: 24px;
+      background: rgba(255, 255, 255, 0.92);
+      border: 1px solid rgba(255, 255, 255, 0.82);
+      box-shadow: var(--shadow-md);
+      backdrop-filter: blur(18px);
+      -webkit-backdrop-filter: blur(18px);
+      animation: floatY 4.5s ease-in-out infinite;
+    }
+
+    .floating-card.one {
+      top: 76px;
+      left: -6px;
+    }
+
+    .floating-card.two {
+      right: -8px;
+      bottom: 116px;
+      animation-delay: -1.5s;
+    }
+
+    .floating-card .float-icon {
+      width: 38px;
+      height: 38px;
+      display: grid;
+      place-items: center;
+      margin-bottom: 8px;
+      border-radius: 15px;
+      background: var(--bg-soft-green);
+      font-size: 19px;
+    }
+
+    .floating-card h4 {
+      font-size: 13px;
+      letter-spacing: -0.025em;
+      margin-bottom: 4px;
+    }
+
+    .floating-card p {
+      font-size: 11px;
+      color: var(--text-sub);
+      line-height: 1.45;
+      font-weight: 700;
+    }
+
+    @keyframes floatY {
+      0%, 100% {
+        transform: translateY(0);
+      }
+      50% {
+        transform: translateY(-12px);
+      }
+    }
+
+    .trust-strip {
+      padding: 18px 0 38px;
+    }
+
+    .trust-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 14px;
+    }
+
+    .trust-item {
+      padding: 18px;
+      border-radius: 24px;
+      background: rgba(255, 255, 255, 0.78);
+      border: 1px solid rgba(229, 237, 245, 0.9);
+      box-shadow: var(--shadow-xs);
+    }
+
+    .trust-item strong {
+      display: block;
+      color: var(--navy);
+      font-size: 22px;
+      letter-spacing: -0.045em;
+      margin-bottom: 2px;
+    }
+
+    .trust-item span {
+      color: var(--text-sub);
+      font-size: 13px;
+      font-weight: 800;
+      letter-spacing: -0.018em;
+    }
+
+    .problem-section {
+      padding: 34px 0 24px;
+    }
+
+    .problem-card {
+      display: grid;
+      grid-template-columns: 0.85fr 1.15fr;
+      gap: 34px;
+      align-items: center;
+      padding: 34px;
+      border-radius: var(--radius-xl);
+      background:
+        linear-gradient(135deg, rgba(18, 54, 95, 0.96), rgba(27, 95, 199, 0.92));
+      color: white;
+      box-shadow: var(--shadow-md);
+      overflow: hidden;
+      position: relative;
+    }
+
+    .problem-card::after {
+      content: "";
+      position: absolute;
+      right: -80px;
+      bottom: -110px;
+      width: 300px;
+      height: 300px;
+      border-radius: 50%;
+      background: rgba(25, 185, 138, 0.2);
+    }
+
+    .problem-card h2 {
+      position: relative;
+      z-index: 1;
+      font-size: clamp(28px, 5vw, 44px);
+      line-height: 1.12;
+      letter-spacing: -0.055em;
+    }
+
+    .problem-list {
+      position: relative;
+      z-index: 1;
+      display: grid;
+      gap: 12px;
+    }
+
+    .problem-item {
+      display: flex;
+      gap: 12px;
+      align-items: flex-start;
+      padding: 16px;
+      border-radius: 22px;
+      background: rgba(255, 255, 255, 0.1);
+      border: 1px solid rgba(255, 255, 255, 0.13);
+    }
+
+    .problem-item span {
+      width: 28px;
+      height: 28px;
+      flex: 0 0 auto;
+      display: grid;
+      place-items: center;
+      border-radius: 10px;
+      background: rgba(255, 255, 255, 0.16);
+      font-weight: 900;
+    }
+
+    .problem-item p {
+      color: rgba(255, 255, 255, 0.86);
+      font-size: 15px;
+      font-weight: 650;
+      letter-spacing: -0.015em;
+    }
+
+    .features-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 18px;
+    }
+
+    .feature-card {
+      position: relative;
+      min-height: 250px;
+      padding: 24px;
+      border-radius: var(--radius-lg);
+      background: rgba(255, 255, 255, 0.86);
+      border: 1px solid rgba(229, 237, 245, 0.96);
+      box-shadow: var(--shadow-sm);
+      overflow: hidden;
+      transition: transform 0.24s ease, box-shadow 0.24s ease;
+    }
+
+    .feature-card:hover {
+      transform: translateY(-6px);
+      box-shadow: var(--shadow-md);
+    }
+
+    .feature-card::before {
+      content: "";
+      position: absolute;
+      inset: auto -40px -54px auto;
+      width: 150px;
+      height: 150px;
+      border-radius: 50%;
+      background: rgba(47, 128, 237, 0.08);
+    }
+
+    .feature-card:nth-child(even)::before {
+      background: rgba(25, 185, 138, 0.11);
+    }
+
+    .feature-icon {
+      width: 54px;
+      height: 54px;
+      display: grid;
+      place-items: center;
+      margin-bottom: 20px;
+      border-radius: 20px;
+      background: linear-gradient(135deg, var(--bg-soft-blue), var(--bg-soft-green));
+      font-size: 26px;
+    }
+
+    .feature-card h3 {
+      font-size: 21px;
+      line-height: 1.2;
+      letter-spacing: -0.04em;
+      margin-bottom: 10px;
+      color: var(--navy);
+    }
+
+    .feature-card p {
+      color: var(--text-sub);
+      font-size: 15px;
+      line-height: 1.7;
+      letter-spacing: -0.018em;
+      font-weight: 650;
+    }
+
+    .steps-wrap {
+      position: relative;
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 16px;
+    }
+
+    .step-card {
+      position: relative;
+      padding: 24px;
+      min-height: 260px;
+      border-radius: var(--radius-lg);
+      background: rgba(255, 255, 255, 0.88);
+      border: 1px solid rgba(229, 237, 245, 0.95);
+      box-shadow: var(--shadow-sm);
+    }
+
+    .step-number {
+      width: 42px;
+      height: 42px;
+      display: grid;
+      place-items: center;
+      border-radius: 15px;
+      margin-bottom: 20px;
+      color: white;
+      background: linear-gradient(135deg, var(--primary-blue), var(--primary-green));
+      font-weight: 950;
+      box-shadow: 0 12px 24px rgba(47, 128, 237, 0.2);
+    }
+
+    .step-card h3 {
+      font-size: 20px;
+      line-height: 1.25;
+      letter-spacing: -0.04em;
+      color: var(--navy);
+      margin-bottom: 10px;
+    }
+
+    .step-card p {
+      color: var(--text-sub);
+      font-size: 15px;
+      line-height: 1.7;
+      letter-spacing: -0.016em;
+      font-weight: 650;
+    }
+
+    .request-layout {
+      display: grid;
+      grid-template-columns: 0.82fr 1.18fr;
+      align-items: start;
+      gap: 26px;
+    }
+
+    .request-side {
+      position: sticky;
+      top: 96px;
+      padding: 30px;
+      border-radius: var(--radius-xl);
+      color: white;
+      background:
+        linear-gradient(150deg, var(--deep-blue), var(--primary-blue-dark) 52%, var(--primary-green-dark));
+      box-shadow: var(--shadow-md);
+      overflow: hidden;
+    }
+
+    .request-side::after {
+      content: "";
+      position: absolute;
+      right: -90px;
+      top: -70px;
+      width: 220px;
+      height: 220px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.12);
+    }
+
+    .request-side h2 {
+      position: relative;
+      z-index: 1;
+      font-size: 34px;
+      line-height: 1.12;
+      letter-spacing: -0.055em;
+      margin-bottom: 14px;
+    }
+
+    .request-side p {
+      position: relative;
+      z-index: 1;
+      color: rgba(255, 255, 255, 0.82);
+      font-size: 15px;
+      line-height: 1.75;
+      font-weight: 650;
+      margin-bottom: 24px;
+    }
+
+    .side-checklist {
+      position: relative;
+      z-index: 1;
+      display: grid;
+      gap: 10px;
+      margin-top: 22px;
+    }
+
+    .side-checklist li {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      list-style: none;
+      padding: 12px;
+      border-radius: 17px;
+      background: rgba(255, 255, 255, 0.1);
+      color: rgba(255, 255, 255, 0.9);
+      font-size: 14px;
+      font-weight: 750;
+    }
+
+    .side-checklist li::before {
+      content: "✓";
+      width: 22px;
+      height: 22px;
+      flex: 0 0 auto;
+      display: grid;
+      place-items: center;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.16);
+      font-size: 12px;
+      font-weight: 950;
+    }
+
+    .emergency-callout {
+      position: relative;
+      z-index: 1;
+      padding: 16px;
+      margin-top: 24px;
+      border-radius: 20px;
+      background: rgba(255, 255, 255, 0.12);
+      border: 1px solid rgba(255, 255, 255, 0.18);
+    }
+
+    .emergency-callout strong {
+      display: block;
+      font-size: 18px;
+      margin-bottom: 4px;
+      letter-spacing: -0.03em;
+    }
+
+    .emergency-callout span {
+      color: rgba(255, 255, 255, 0.82);
+      font-size: 13px;
+      font-weight: 650;
+    }
+
+    .form-card {
+      padding: 26px;
+      border-radius: var(--radius-xl);
+      background: rgba(255, 255, 255, 0.9);
+      border: 1px solid rgba(229, 237, 245, 0.95);
+      box-shadow: var(--shadow-md);
+    }
+
+    .form-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 16px;
+    }
+
+    .field {
+      display: grid;
+      gap: 8px;
+    }
+
+    .field.full {
+      grid-column: 1 / -1;
+    }
+
+    .field label {
+      color: var(--navy);
+      font-size: 13px;
+      font-weight: 900;
+      letter-spacing: -0.016em;
+    }
+
+    .required {
+      color: var(--danger);
+    }
+
+    .field input,
+    .field select,
+    .field textarea {
+      width: 100%;
+      min-height: 52px;
+      padding: 0 15px;
+      border: 1px solid #dfe8f2;
+      border-radius: 17px;
+      outline: none;
+      background: #fbfdff;
+      color: var(--text-main);
+      font-size: 15px;
+      font-weight: 650;
+      transition: border-color 0.18s ease, box-shadow 0.18s ease, background 0.18s ease;
+    }
+
+    .field textarea {
+      min-height: 130px;
+      resize: vertical;
+      padding-top: 14px;
+      line-height: 1.6;
+    }
+
+    .field input:focus,
+    .field select:focus,
+    .field textarea:focus {
+      border-color: rgba(47, 128, 237, 0.72);
+      background: white;
+      box-shadow: 0 0 0 4px rgba(47, 128, 237, 0.11);
+    }
+
+    .input-help {
+      color: var(--text-light);
+      font-size: 12px;
+      font-weight: 700;
+    }
+
+    .emergency-box {
+      display: none;
+      grid-column: 1 / -1;
+      padding: 16px;
+      border-radius: 20px;
+      background: var(--danger-bg);
+      border: 1px solid rgba(255, 90, 95, 0.22);
+      color: #9f1d22;
+    }
+
+    .emergency-box.show {
+      display: block;
+      animation: fadeIn 0.22s ease;
+    }
+
+    .emergency-box strong {
+      display: block;
+      margin-bottom: 6px;
+      font-size: 15px;
+      letter-spacing: -0.02em;
+    }
+
+    .emergency-box p {
+      color: #9f1d22;
+      font-size: 13px;
+      line-height: 1.6;
+      font-weight: 700;
+    }
+
+    .consent-box {
+      grid-column: 1 / -1;
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      padding: 16px;
+      border-radius: 20px;
+      background: #f8fbff;
+      border: 1px solid rgba(229, 237, 245, 0.95);
+    }
+
+    .consent-box input {
+      width: 18px;
+      height: 18px;
+      margin-top: 2px;
+      accent-color: var(--primary-blue);
+    }
+
+    .consent-box label {
+      color: var(--text-sub);
+      font-size: 13px;
+      line-height: 1.55;
+      font-weight: 700;
+    }
+
+    .form-actions {
+      grid-column: 1 / -1;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 12px;
+      margin-top: 4px;
+    }
+
+    .form-actions .btn {
+      flex: 1 1 240px;
+    }
+
+    .safe-note {
+      color: var(--text-light);
+      font-size: 12px;
+      font-weight: 700;
+      line-height: 1.55;
+    }
+
+    .clinics-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 18px;
+    }
+
+    .clinic-card {
+      padding: 22px;
+      border-radius: var(--radius-lg);
+      background: rgba(255, 255, 255, 0.88);
+      border: 1px solid rgba(229, 237, 245, 0.95);
+      box-shadow: var(--shadow-sm);
+      transition: transform 0.24s ease, box-shadow 0.24s ease;
+    }
+
+    .clinic-card:hover {
+      transform: translateY(-5px);
+      box-shadow: var(--shadow-md);
+    }
+
+    .clinic-icon {
+      width: 52px;
+      height: 52px;
+      display: grid;
+      place-items: center;
+      margin-bottom: 18px;
+      border-radius: 20px;
+      background: linear-gradient(135deg, var(--bg-soft-blue), var(--bg-soft-green));
+      font-size: 25px;
+    }
+
+    .clinic-card h3 {
+      font-size: 20px;
+      letter-spacing: -0.04em;
+      margin-bottom: 9px;
+      color: var(--navy);
+    }
+
+    .clinic-card p {
+      color: var(--text-sub);
+      font-size: 15px;
+      line-height: 1.65;
+      font-weight: 650;
+      margin-bottom: 14px;
+    }
+
+    .clinic-meta {
+      display: inline-flex;
+      padding: 7px 10px;
+      border-radius: 999px;
+      background: var(--bg-soft-blue);
+      color: var(--primary-blue-dark);
+      font-size: 12px;
+      font-weight: 900;
+    }
+
+    .coordinator-section {
+      padding: 92px 0;
+      background:
+        linear-gradient(180deg, rgba(255, 255, 255, 0.34), rgba(234, 244, 255, 0.58));
+    }
+
+    .coordinator-layout {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 26px;
+      align-items: center;
+    }
+
+    .coordinator-card {
+      padding: 30px;
+      border-radius: var(--radius-xl);
+      background: rgba(255, 255, 255, 0.9);
+      border: 1px solid rgba(229, 237, 245, 0.95);
+      box-shadow: var(--shadow-md);
+    }
+
+    .coordinator-profile {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      padding-bottom: 22px;
+      margin-bottom: 22px;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .profile-avatar {
+      width: 74px;
+      height: 74px;
+      flex: 0 0 auto;
+      display: grid;
+      place-items: center;
+      border-radius: 26px;
+      background: linear-gradient(135deg, var(--primary-blue), var(--primary-green));
+      color: white;
+      font-size: 34px;
+      box-shadow: 0 18px 32px rgba(47, 128, 237, 0.22);
+    }
+
+    .coordinator-profile h3 {
+      font-size: 23px;
+      letter-spacing: -0.045em;
+      color: var(--navy);
+      margin-bottom: 4px;
+    }
+
+    .coordinator-profile p {
+      color: var(--text-sub);
+      font-size: 14px;
+      font-weight: 750;
+    }
+
+    .role-list {
+      display: grid;
+      gap: 12px;
+    }
+
+    .role-item {
+      display: flex;
+      gap: 12px;
+      align-items: center;
+      padding: 14px;
+      border-radius: 19px;
+      background: #f8fbff;
+      border: 1px solid rgba(229, 237, 245, 0.9);
+      color: var(--text-sub);
+      font-size: 14px;
+      font-weight: 800;
+    }
+
+    .role-item span {
+      width: 30px;
+      height: 30px;
+      flex: 0 0 auto;
+      display: grid;
+      place-items: center;
+      border-radius: 12px;
+      background: var(--bg-soft-green);
+      color: var(--primary-green-dark);
+      font-weight: 950;
+    }
+
+    .conversation-demo {
+      display: grid;
+      gap: 12px;
+    }
+
+    .chat-bubble {
+      width: fit-content;
+      max-width: 86%;
+      padding: 15px 17px;
+      border-radius: 22px;
+      color: var(--text-main);
+      background: white;
+      border: 1px solid rgba(229, 237, 245, 0.95);
+      box-shadow: var(--shadow-xs);
+      font-size: 15px;
+      font-weight: 700;
+      line-height: 1.58;
+    }
+
+    .chat-bubble.user {
+      justify-self: end;
+      background: var(--primary-blue);
+      color: white;
+      border-color: var(--primary-blue);
+      border-bottom-right-radius: 8px;
+    }
+
+    .chat-bubble.coordinator {
+      justify-self: start;
+      border-bottom-left-radius: 8px;
+    }
+
+    .chat-bubble.doctor {
+      justify-self: start;
+      background: var(--bg-soft-green);
+      border-color: rgba(25, 185, 138, 0.16);
+      border-bottom-left-radius: 8px;
+    }
+
+    .pricing-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 18px;
+      align-items: stretch;
+    }
+
+    .price-card {
+      position: relative;
+      padding: 26px;
+      border-radius: var(--radius-xl);
+      background: rgba(255, 255, 255, 0.9);
+      border: 1px solid rgba(229, 237, 245, 0.95);
+      box-shadow: var(--shadow-sm);
+      overflow: hidden;
+    }
+
+    .price-card.featured {
+      border-color: rgba(47, 128, 237, 0.28);
+      box-shadow: var(--shadow-md);
+      transform: translateY(-8px);
+    }
+
+    .popular-label {
+      position: absolute;
+      top: 18px;
+      right: 18px;
+      padding: 7px 10px;
+      border-radius: 999px;
+      background: var(--bg-soft-green);
+      color: var(--primary-green-dark);
+      font-size: 12px;
+      font-weight: 950;
+    }
+
+    .price-card h3 {
+      font-size: 22px;
+      letter-spacing: -0.045em;
+      color: var(--navy);
+      margin-bottom: 8px;
+      padding-right: 78px;
+    }
+
+    .price-card .price-desc {
+      color: var(--text-sub);
+      font-size: 14px;
+      font-weight: 650;
+      line-height: 1.65;
+      min-height: 48px;
+      margin-bottom: 22px;
+    }
+
+    .price {
+      display: flex;
+      align-items: flex-end;
+      gap: 4px;
+      margin-bottom: 22px;
+    }
+
+    .price strong {
+      font-size: 42px;
+      line-height: 1;
+      letter-spacing: -0.06em;
+      color: var(--navy);
+    }
+
+    .price span {
+      color: var(--text-light);
+      font-size: 14px;
+      font-weight: 800;
+      margin-bottom: 4px;
+    }
+
+    .price-list {
+      display: grid;
+      gap: 11px;
+      margin-bottom: 24px;
+    }
+
+    .price-list li {
+      display: flex;
+      gap: 10px;
+      list-style: none;
+      color: var(--text-sub);
+      font-size: 14px;
+      font-weight: 750;
+      line-height: 1.45;
+    }
+
+    .price-list li::before {
+      content: "✓";
+      width: 22px;
+      height: 22px;
+      flex: 0 0 auto;
+      display: grid;
+      place-items: center;
+      border-radius: 999px;
+      background: var(--bg-soft-blue);
+      color: var(--primary-blue-dark);
+      font-size: 12px;
+      font-weight: 950;
+    }
+
+    .faq-layout {
+      display: grid;
+      grid-template-columns: 0.78fr 1.22fr;
+      gap: 30px;
+      align-items: start;
+    }
+
+    .faq-note {
+      padding: 26px;
+      border-radius: var(--radius-xl);
+      background: rgba(255, 255, 255, 0.86);
+      border: 1px solid rgba(229, 237, 245, 0.95);
+      box-shadow: var(--shadow-sm);
+    }
+
+    .faq-note h3 {
+      color: var(--navy);
+      font-size: 24px;
+      letter-spacing: -0.045em;
+      margin-bottom: 12px;
+    }
+
+    .faq-note p {
+      color: var(--text-sub);
+      font-size: 15px;
+      line-height: 1.7;
+      font-weight: 650;
+    }
+
+    .faq-list {
+      display: grid;
+      gap: 12px;
+    }
+
+    .faq-item {
+      border-radius: 22px;
+      background: rgba(255, 255, 255, 0.9);
+      border: 1px solid rgba(229, 237, 245, 0.95);
+      box-shadow: var(--shadow-xs);
+      overflow: hidden;
+    }
+
+    .faq-question {
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      min-height: 68px;
+      padding: 0 20px;
+      background: transparent;
+      color: var(--navy);
+      text-align: left;
+      font-size: 16px;
+      font-weight: 900;
+      letter-spacing: -0.025em;
+    }
+
+    .faq-question .plus {
+      width: 32px;
+      height: 32px;
+      flex: 0 0 auto;
+      display: grid;
+      place-items: center;
+      border-radius: 12px;
+      background: var(--bg-soft-blue);
+      color: var(--primary-blue-dark);
+      transition: transform 0.2s ease;
+      font-weight: 950;
+    }
+
+    .faq-item.open .faq-question .plus {
+      transform: rotate(45deg);
+    }
+
+    .faq-answer {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.28s ease;
+    }
+
+    .faq-answer-inner {
+      padding: 0 20px 20px;
+      color: var(--text-sub);
+      font-size: 15px;
+      line-height: 1.7;
+      font-weight: 650;
+    }
+
+    .contact-card {
+      padding: 34px;
+      border-radius: var(--radius-xl);
+      background:
+        linear-gradient(135deg, rgba(255, 255, 255, 0.92), rgba(234, 244, 255, 0.86));
+      border: 1px solid rgba(229, 237, 245, 0.95);
+      box-shadow: var(--shadow-md);
+      display: grid;
+      grid-template-columns: 1fr auto;
+      align-items: center;
+      gap: 24px;
+    }
+
+    .contact-card h2 {
+      color: var(--navy);
+      font-size: clamp(28px, 5vw, 44px);
+      line-height: 1.12;
+      letter-spacing: -0.055em;
+      margin-bottom: 12px;
+    }
+
+    .contact-card p {
+      max-width: 720px;
+      color: var(--text-sub);
+      font-size: 16px;
+      line-height: 1.75;
+      font-weight: 650;
+    }
+
+    .footer {
+      padding: 54px 0 34px;
+      background: #0f1d31;
+      color: white;
+    }
+
+    .footer-grid {
+      display: grid;
+      grid-template-columns: 1.1fr 0.9fr 0.9fr;
+      gap: 26px;
+      padding-bottom: 30px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.11);
+    }
+
+    .footer-logo {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 24px;
+      font-weight: 950;
+      letter-spacing: -0.045em;
+      margin-bottom: 14px;
+    }
+
+    .footer p {
+      color: rgba(255, 255, 255, 0.66);
+      font-size: 14px;
+      line-height: 1.72;
+      font-weight: 650;
+    }
+
+    .footer h3 {
+      font-size: 15px;
+      letter-spacing: -0.02em;
+      margin-bottom: 12px;
+    }
+
+    .footer-links {
+      display: grid;
+      gap: 9px;
+    }
+
+    .footer-links a {
+      color: rgba(255, 255, 255, 0.66);
+      font-size: 14px;
+      font-weight: 750;
+      transition: color 0.18s ease;
+    }
+
+    .footer-links a:hover {
+      color: white;
+    }
+
+    .footer-bottom {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      padding-top: 24px;
+      color: rgba(255, 255, 255, 0.54);
+      font-size: 13px;
+      font-weight: 650;
+    }
+
+    .floating-help {
+      position: fixed;
+      right: 22px;
+      bottom: 22px;
+      z-index: 950;
+      display: inline-flex;
+      align-items: center;
+      gap: 9px;
+      min-height: 54px;
+      padding: 0 18px;
+      border-radius: 999px;
+      color: white;
+      background: linear-gradient(135deg, var(--primary-blue), var(--primary-green));
+      box-shadow: 0 18px 42px rgba(47, 128, 237, 0.32);
+      font-size: 14px;
+      font-weight: 950;
+      letter-spacing: -0.02em;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .floating-help:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 22px 52px rgba(47, 128, 237, 0.38);
+    }
+
+    .modal-backdrop {
+      position: fixed;
+      inset: 0;
+      z-index: 2000;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 22px;
+      background: rgba(15, 29, 49, 0.54);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+    }
+
+    .modal-backdrop.show {
+      display: flex;
+      animation: fadeIn 0.2s ease;
+    }
+
+    .modal {
+      width: min(100%, 460px);
+      padding: 28px;
+      border-radius: 32px;
+      background: white;
+      box-shadow: var(--shadow-lg);
+      animation: modalUp 0.24s ease;
+    }
+
+    .modal-icon {
+      width: 64px;
+      height: 64px;
+      display: grid;
+      place-items: center;
+      margin-bottom: 18px;
+      border-radius: 24px;
+      background: var(--bg-soft-green);
+      color: var(--primary-green-dark);
+      font-size: 30px;
+      font-weight: 950;
+    }
+
+    .modal h2 {
+      color: var(--navy);
+      font-size: 28px;
+      line-height: 1.14;
+      letter-spacing: -0.055em;
+      margin-bottom: 10px;
+    }
+
+    .modal p {
+      color: var(--text-sub);
+      font-size: 15px;
+      line-height: 1.72;
+      font-weight: 650;
+      margin-bottom: 18px;
+    }
+
+    .request-number {
+      padding: 14px;
+      border-radius: 18px;
+      background: #f8fbff;
+      border: 1px solid rgba(229, 237, 245, 0.95);
+      color: var(--text-sub);
+      font-size: 13px;
+      font-weight: 750;
+      margin-bottom: 18px;
+    }
+
+    .request-number strong {
+      color: var(--primary-blue-dark);
+    }
+
+    .toast {
+      position: fixed;
+      left: 50%;
+      bottom: 94px;
+      z-index: 2100;
+      display: none;
+      transform: translateX(-50%);
+      max-width: calc(100% - 40px);
+      padding: 13px 16px;
+      border-radius: 999px;
+      color: white;
+      background: rgba(15, 29, 49, 0.92);
+      box-shadow: var(--shadow-md);
+      font-size: 13px;
+      font-weight: 850;
+      text-align: center;
+    }
+
+    .toast.show {
+      display: block;
+      animation: toastUp 2.2s ease forwards;
+    }
+
+    .reveal {
+      opacity: 0;
+      transform: translateY(18px);
+      transition: opacity 0.58s ease, transform 0.58s ease;
+    }
+
+    .reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+      }
+      to {
+        opacity: 1;
+      }
+    }
+
+    @keyframes modalUp {
+      from {
+        opacity: 0;
+        transform: translateY(18px) scale(0.98);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+      }
+    }
+
+    @keyframes toastUp {
+      0% {
+        opacity: 0;
+        transform: translate(-50%, 10px);
+      }
+      12%, 82% {
+        opacity: 1;
+        transform: translate(-50%, 0);
+      }
+      100% {
+        opacity: 0;
+        transform: translate(-50%, 10px);
+      }
+    }
+
+    @media (max-width: 1080px) {
+      .hero-grid,
+      .request-layout,
+      .coordinator-layout,
+      .faq-layout {
+        grid-template-columns: 1fr;
+      }
+
+      .hero-visual {
+        min-height: auto;
+      }
+
+      .request-side {
+        position: relative;
+        top: 0;
+      }
+
+      .features-grid,
+      .steps-wrap {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .trust-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .contact-card {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 880px) {
+      :root {
+        --header-height: 66px;
+      }
+
+      .container {
+        width: min(100% - 32px, var(--max-width));
+      }
+
+      .nav-menu,
+      .nav-cta {
+        display: none;
+      }
+
+      .menu-toggle {
+        display: inline-flex;
+      }
+
+      .mobile-panel {
+        position: fixed;
+        inset: var(--header-height) 16px auto 16px;
+        z-index: 999;
+        display: block;
+        padding: 16px;
+        border-radius: 28px;
+        background: rgba(255, 255, 255, 0.96);
+        border: 1px solid rgba(229, 237, 245, 0.96);
+        box-shadow: var(--shadow-lg);
+        transform: translateY(-16px);
+        opacity: 0;
+        pointer-events: none;
+        transition: opacity 0.22s ease, transform 0.22s ease;
+      }
+
+      .mobile-panel.open {
+        opacity: 1;
+        transform: translateY(0);
+        pointer-events: auto;
+      }
+
+      .mobile-panel a {
+        display: flex;
+        align-items: center;
+        min-height: 48px;
+        padding: 0 14px;
+        border-radius: 16px;
+        color: var(--text-sub);
+        font-size: 15px;
+        font-weight: 900;
+      }
+
+      .mobile-panel a:hover {
+        color: var(--primary-blue-dark);
+        background: var(--bg-soft-blue);
+      }
+
+      .mobile-panel .mobile-cta {
+        justify-content: center;
+        margin-top: 8px;
+        color: white;
+        background: linear-gradient(135deg, var(--primary-blue), var(--primary-green));
+      }
+
+      .hero {
+        padding-top: calc(var(--header-height) + 40px);
+      }
+
+      .hero-title {
+        font-size: clamp(42px, 13vw, 64px);
+      }
+
+      .hero-actions .btn {
+        width: 100%;
+      }
+
+      .phone-shell {
+        width: min(100%, 370px);
+      }
+
+      .floating-card.one {
+        left: -2px;
+        top: 54px;
+      }
+
+      .floating-card.two {
+        right: -2px;
+      }
+
+      .problem-card {
+        grid-template-columns: 1fr;
+        padding: 26px;
+      }
+
+      .clinics-grid,
+      .pricing-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .price-card.featured {
+        transform: none;
+      }
+
+      .footer-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .footer-bottom {
+        align-items: flex-start;
+        flex-direction: column;
+      }
+    }
+
+    @media (max-width: 640px) {
+      .section {
+        padding: 72px 0;
+      }
+
+      .logo {
+        font-size: 21px;
+      }
+
+      .logo-mark {
+        width: 36px;
+        height: 36px;
+      }
+
+      .hero {
+        padding-bottom: 56px;
+      }
+
+      .hero-grid {
+        gap: 30px;
+      }
+
+      .hero-badges {
+        gap: 8px;
+      }
+
+      .badge {
+        font-size: 12px;
+        padding: 8px 10px;
+      }
+
+      .hero-note {
+        font-size: 13px;
+      }
+
+      .phone-shell {
+        border-radius: 38px;
+        padding: 12px;
+        min-height: auto;
+      }
+
+      .phone-screen {
+        min-height: 500px;
+        border-radius: 30px;
+        padding: 15px;
+      }
+
+      .floating-card {
+        display: none;
+      }
+
+      .trust-grid,
+      .features-grid,
+      .steps-wrap {
+        grid-template-columns: 1fr;
+      }
+
+      .trust-strip {
+        padding-bottom: 16px;
+      }
+
+      .feature-card,
+      .step-card {
+        min-height: auto;
+      }
+
+      .form-card,
+      .request-side,
+      .coordinator-card,
+      .contact-card {
+        padding: 22px;
+        border-radius: 28px;
+      }
+
+      .form-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .form-actions .btn {
+        flex-basis: 100%;
+      }
+
+      .coordinator-profile {
+        align-items: flex-start;
+      }
+
+      .profile-avatar {
+        width: 62px;
+        height: 62px;
+        border-radius: 22px;
+        font-size: 28px;
+      }
+
+      .chat-bubble {
+        max-width: 94%;
+      }
+
+      .floating-help {
+        left: 16px;
+        right: 16px;
+        bottom: 16px;
+        justify-content: center;
+      }
+
+      .footer {
+        padding-bottom: 86px;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *,
+      *::before,
+      *::after {
+        scroll-behavior: auto !important;
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="page">
+    <header class="header" id="header">
+      <div class="container nav">
+        <a href="#home" class="logo" aria-label="GraceLink Home">
+          <span class="logo-mark">G</span>
+          <span>GraceLink</span>
+        </a>
+
+        <nav aria-label="Main navigation">
+          <ul class="nav-menu">
+            <li><a class="nav-link active" href="#home">Home</a></li>
+            <li><a class="nav-link" href="#how">How it works</a></li>
+            <li><a class="nav-link" href="#request">Request Help</a></li>
+            <li><a class="nav-link" href="#clinics">Clinics</a></li>
+            <li><a class="nav-link" href="#pricing">Pricing</a></li>
+            <li><a class="nav-link" href="#faq">FAQ</a></li>
+          </ul>
+        </nav>
+
+        <a href="#request" class="nav-cta">Get Help</a>
+
+        <button class="menu-toggle" id="menuToggle" type="button" aria-label="Open menu" aria-expanded="false">
+          <span></span>
+          <span></span>
+          <span></span>
+        </button>
+      </div>
+
+      <div class="mobile-panel" id="mobilePanel" aria-label="Mobile navigation">
+        <a href="#home">Home</a>
+        <a href="#how">How it works</a>
+        <a href="#request">Request Help</a>
+        <a href="#clinics">Find Clinics</a>
+        <a href="#coordinator">Coordinator</a>
+        <a href="#pricing">Pricing</a>
+        <a href="#faq">FAQ</a>
+        <a href="#contact">Contact</a>
+        <a href="#request" class="mobile-cta">Request Coordinator Help</a>
+      </div>
+    </header>
+
+    <main>
+      <section class="hero" id="home">
+        <div class="container hero-grid">
+          <div class="hero-copy reveal">
+            <div class="hero-badges">
+              <span class="badge"><strong>For visitors</strong> in Korea</span>
+              <span class="badge">Medical coordinator support</span>
+              <span class="badge">Language bridge</span>
+            </div>
+
+            <h1 class="hero-title">
+              Feeling sick in Korea?
+              <span class="gradient-text">GraceLink</span> helps you communicate.
+            </h1>
+
+            <p class="hero-desc">
+              GraceLink connects foreign visitors with medical coordinators who can help organize symptoms,
+              guide clinic visits, and reduce language barriers at Korean hospitals.
+            </p>
+
+            <div class="hero-actions">
+              <a href="#request" class="btn btn-primary">Request Coordinator Help</a>
+              <a href="#how" class="btn btn-secondary">Check How It Works</a>
+            </div>
+
+            <div class="hero-note">
+              <span>⚠️</span>
+              <span>
+                <b>Emergency?</b> Call <b>119</b> immediately in Korea.
+                GraceLink is not an emergency medical service and does not provide diagnosis or treatment.
+              </span>
+            </div>
+          </div>
+
+          <div class="hero-visual reveal" aria-label="GraceLink mobile app preview">
+            <div class="floating-card one">
+              <div class="float-icon">🌐</div>
+              <h4>Language support</h4>
+              <p>Help explaining symptoms to medical staff.</p>
+            </div>
+
+            <div class="phone-shell">
+              <div class="phone-screen">
+                <div class="screen-top">
+                  <div class="screen-logo">
+                    <span class="logo-mark" style="width:30px;height:30px;border-radius:12px;font-size:15px;">G</span>
+                    <span>GraceLink</span>
+                  </div>
+                  <span class="screen-status">● Online</span>
+                </div>
+
+                <div class="screen-hero-card">
+                  <span class="mini-label">Coordinator request</span>
+                  <h3>Your hospital visit assistant in Korea</h3>
+                  <p>Share your symptoms, preferred language, and location. A coordinator helps guide the next step.</p>
+                </div>
+
+                <div class="match-card">
+                  <div class="avatar">👩‍⚕️</div>
+                  <div>
+                    <h4>Coordinator matched</h4>
+                    <p>English available · Clinic guidance ready</p>
+                    <div class="progress-line"><span></span></div>
+                  </div>
+                </div>
+
+                <div class="symptom-card">
+                  <h4>Symptom summary</h4>
+                  <div class="symptom-tags">
+                    <span>Fever</span>
+                    <span>Sore throat</span>
+                    <span>Need ENT</span>
+                    <span>Today</span>
+                  </div>
+                </div>
+
+                <div class="clinic-card-mini">
+                  <div>
+                    <h4>Recommended clinic type</h4>
+                    <p>ENT clinic near your location</p>
+                  </div>
+                  <div class="mini-arrow">→</div>
+                </div>
+
+                <div class="clinic-card-mini">
+                  <div>
+                    <h4>Visit guidance</h4>
+                    <p>Prepare passport, insurance, and symptom memo</p>
+                  </div>
+                  <div class="mini-arrow">✓</div>
+                </div>
+              </div>
+            </div>
+
+            <div class="floating-card two">
+              <div class="float-icon">🏥</div>
+              <h4>Clinic guidance</h4>
+              <p>Find the right department before visiting.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="trust-strip" aria-label="GraceLink service highlights">
+        <div class="container trust-grid">
+          <div class="trust-item reveal">
+            <strong>119</strong>
+            <span>Emergency number in Korea</span>
+          </div>
+          <div class="trust-item reveal">
+            <strong>24/7</strong>
+            <span>Request UI available anytime</span>
+          </div>
+          <div class="trust-item reveal">
+            <strong>6+</strong>
+            <span>Language expansion ready</span>
+          </div>
+          <div class="trust-item reveal">
+            <strong>Simple</strong>
+            <span>Mobile-first hospital support</span>
+          </div>
+        </div>
+      </section>
+
+      <section class="problem-section">
+        <div class="container">
+          <div class="problem-card reveal">
+            <h2>Visiting a hospital in another country can be stressful.</h2>
+            <div class="problem-list">
+              <div class="problem-item">
+                <span>1</span>
+                <p>You may not know which clinic or department to visit.</p>
+              </div>
+              <div class="problem-item">
+                <span>2</span>
+                <p>It can be difficult to explain symptoms accurately in Korean.</p>
+              </div>
+              <div class="problem-item">
+                <span>3</span>
+                <p>Hospital reception, reservation, payment, and follow-up steps can feel confusing.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="section" id="features">
+        <div class="container">
+          <div class="section-header reveal">
+            <span class="eyebrow">Core Service</span>
+            <h2 class="section-title">A medical communication bridge for foreign visitors.</h2>
+            <p class="section-desc">
+              GraceLink focuses on the communication gap between foreign travelers and Korean medical environments.
+            </p>
+          </div>
+
+          <div class="features-grid">
+            <article class="feature-card reveal">
+              <div class="feature-icon">🩺</div>
+              <h3>Symptom Support</h3>
+              <p>Tell us what you feel. GraceLink helps organize your symptoms clearly before visiting a clinic.</p>
+            </article>
+
+            <article class="feature-card reveal">
+              <div class="feature-icon">🤝</div>
+              <h3>Coordinator Matching</h3>
+              <p>Connect with a medical coordinator who can assist with hospital communication and basic visit flow.</p>
+            </article>
+
+            <article class="feature-card reveal">
+              <div class="feature-icon">🏥</div>
+              <h3>Clinic Guidance</h3>
+              <p>Find suitable clinic categories based on your symptoms, location, and language needs.</p>
+            </article>
+
+            <article class="feature-card reveal">
+              <div class="feature-icon">🌐</div>
+              <h3>Language Bridge</h3>
+              <p>Reduce language barriers when describing your condition to Korean hospital staff.</p>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section class="section" id="how">
+        <div class="container">
+          <div class="section-header reveal">
+            <span class="eyebrow green">How It Works</span>
+            <h2 class="section-title">From symptoms to clinic guidance in four steps.</h2>
+            <p class="section-desc">
+              The process is designed to be simple, especially for travelers using a mobile phone.
+            </p>
+          </div>
+
+          <div class="steps-wrap">
+            <article class="step-card reveal">
+              <div class="step-number">1</div>
+              <h3>Tell us your symptoms</h3>
+              <p>Select your symptoms, preferred language, current location, and clinic type.</p>
+            </article>
+
+            <article class="step-card reveal">
+              <div class="step-number">2</div>
+              <h3>Get matched with a coordinator</h3>
+              <p>A medical coordinator reviews your information and helps prepare the right explanation.</p>
+            </article>
+
+            <article class="step-card reveal">
+              <div class="step-number">3</div>
+              <h3>Visit the clinic with confidence</h3>
+              <p>Receive guidance for hospital communication, appointment details, and basic visit instructions.</p>
+            </article>
+
+            <article class="step-card reveal">
+              <div class="step-number">4</div>
+              <h3>Follow-up support</h3>
+              <p>Get basic guidance after the visit, such as payment, prescription, or next appointment steps.</p>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section class="section" id="request">
+        <div class="container request-layout">
+          <aside class="request-side reveal">
+            <h2>Request medical coordinator help.</h2>
+            <p>
+              Share your situation. This demo form does not send data to a server yet,
+              but the UI is ready for backend integration.
+            </p>
+
+            <ul class="side-checklist">
+              <li>Symptom summary support</li>
+              <li>Hospital communication guidance</li>
+              <li>Clinic category recommendation</li>
+              <li>Language barrier reduction</li>
+            </ul>
+
+            <div class="emergency-callout">
+              <strong>Emergency in Korea: 119</strong>
+              <span>If you have chest pain, severe breathing issues, heavy bleeding, or loss of consciousness, call 119 immediately.</span>
+            </div>
+          </aside>
+
+          <div class="form-card reveal">
+            <div class="section-header" style="margin-bottom:22px;">
+              <span class="eyebrow">Request Help</span>
+              <h2 class="section-title" style="font-size:clamp(28px,4vw,38px);">Tell GraceLink what you need.</h2>
+              <p class="section-desc" style="font-size:15px;">
+                Fill out the form below. Required fields are marked with red.
+              </p>
+            </div>
+
+            <form id="helpForm" class="form-grid">
+              <div class="field">
+                <label for="name">Name <span class="required">*</span></label>
+                <input id="name" name="name" type="text" placeholder="Your name" required />
+              </div>
+
+              <div class="field">
+                <label for="nationality">Nationality</label>
+                <input id="nationality" name="nationality" type="text" placeholder="e.g. United States" />
+              </div>
+
+              <div class="field">
+                <label for="language">Preferred Language <span class="required">*</span></label>
+                <select id="language" name="language" required>
+                  <option value="">Select language</option>
+                  <option>English</option>
+                  <option>Chinese</option>
+                  <option>Japanese</option>
+                  <option>Korean</option>
+                  <option>Vietnamese</option>
+                  <option>Thai</option>
+                  <option>Other</option>
+                </select>
+              </div>
+
+              <div class="field">
+                <label for="location">Current Location in Korea <span class="required">*</span></label>
+                <input id="location" name="location" type="text" placeholder="e.g. Myeongdong, Seoul" required />
+                <span class="input-help">Enter area, hotel name, or nearby station.</span>
+              </div>
+
+              <div class="field">
+                <label for="department">Preferred Department</label>
+                <select id="department" name="department">
+                  <option>Not Sure</option>
+                  <option>Internal Medicine</option>
+                  <option>ENT</option>
+                  <option>Dermatology</option>
+                  <option>Dentist</option>
+                  <option>Ophthalmology</option>
+                  <option>Orthopedics</option>
+                  <option>Pediatrics</option>
+                  <option>Women's Clinic</option>
+                </select>
+              </div>
+
+              <div class="field">
+                <label for="urgency">Urgency Level <span class="required">*</span></label>
+                <select id="urgency" name="urgency" required>
+                  <option value="">Select urgency</option>
+                  <option value="mild">Mild</option>
+                  <option value="today">Need clinic today</option>
+                  <option value="soon">Need help soon</option>
+                  <option value="emergency">Emergency</option>
+                </select>
+              </div>
+
+              <div class="emergency-box" id="emergencyBox">
+                <strong>If this is a medical emergency, call 119 immediately.</strong>
+                <p>
+                  GraceLink is not an emergency medical service. Do not wait for coordinator support
+                  in life-threatening situations.
+                </p>
+              </div>
+
+              <div class="field">
+                <label for="reservation">Need Hospital Reservation?</label>
+                <select id="reservation" name="reservation">
+                  <option>Not sure yet</option>
+                  <option>Yes, please help</option>
+                  <option>No, guidance only</option>
+                </select>
+              </div>
+
+              <div class="field">
+                <label for="contact">Contact Method <span class="required">*</span></label>
+                <select id="contact" name="contact" required>
+                  <option value="">Select contact method</option>
+                  <option>Email</option>
+                  <option>WhatsApp</option>
+                  <option>KakaoTalk</option>
+                  <option>Line</option>
+                  <option>Phone Call</option>
+                </select>
+              </div>
+
+              <div class="field full">
+                <label for="symptoms">Symptoms <span class="required">*</span></label>
+                <textarea id="symptoms" name="symptoms" placeholder="Describe your symptoms, when they started, and any medication you took." required></textarea>
+              </div>
+
+              <div class="field full">
+                <label for="message">Additional Message</label>
+                <textarea id="message" name="message" placeholder="Anything else the coordinator should know?"></textarea>
+              </div>
+
+              <div class="consent-box">
+                <input id="consent" name="consent" type="checkbox" required />
+                <label for="consent">
+                  I understand that GraceLink is not a medical institution and does not provide medical diagnosis,
+                  treatment, or emergency services.
+                </label>
+              </div>
+
+              <div class="form-actions">
+                <button class="btn btn-primary" type="submit">Submit Request</button>
+                <button class="btn btn-secondary" type="button" id="sampleFillBtn">Fill Sample</button>
+              </div>
+
+              <p class="safe-note">
+                Demo notice: This form currently shows a success modal only. To launch the real service,
+                connect it to Firebase, Supabase, Google Sheets, or your own backend API.
+              </p>
+            </form>
+          </div>
+        </div>
+      </section>
+
+      <section class="section" id="clinics">
+        <div class="container">
+          <div class="section-header reveal">
+            <span class="eyebrow green">Find Clinics</span>
+            <h2 class="section-title">Choose the right clinic category faster.</h2>
+            <p class="section-desc">
+              GraceLink can help users understand which type of clinic may be relevant before visiting.
+              Final diagnosis must be provided by licensed medical professionals.
+            </p>
+          </div>
+
+          <div class="clinics-grid">
+            <article class="clinic-card reveal">
+              <div class="clinic-icon">🌡️</div>
+              <h3>Internal Medicine</h3>
+              <p>For fever, stomach pain, cold symptoms, body aches, or general discomfort.</p>
+              <span class="clinic-meta">General symptoms</span>
+            </article>
+
+            <article class="clinic-card reveal">
+              <div class="clinic-icon">👂</div>
+              <h3>ENT</h3>
+              <p>For sore throat, ear pain, sinus issues, coughing, or nasal congestion.</p>
+              <span class="clinic-meta">Ear · Nose · Throat</span>
+            </article>
+
+            <article class="clinic-card reveal">
+              <div class="clinic-icon">🧴</div>
+              <h3>Dermatology</h3>
+              <p>For skin rash, allergy, acne, burns, itching, or sudden skin irritation.</p>
+              <span class="clinic-meta">Skin concerns</span>
+            </article>
+
+            <article class="clinic-card reveal">
+              <div class="clinic-icon">🦷</div>
+              <h3>Dental Clinic</h3>
+              <p>For tooth pain, gum problems, broken teeth, or dental discomfort.</p>
+              <span class="clinic-meta">Dental care</span>
+            </article>
+
+            <article class="clinic-card reveal">
+              <div class="clinic-icon">👁️</div>
+              <h3>Ophthalmology</h3>
+              <p>For eye pain, redness, vision discomfort, dry eyes, or contact lens issues.</p>
+              <span class="clinic-meta">Eye care</span>
+            </article>
+
+            <article class="clinic-card reveal">
+              <div class="clinic-icon">🧒</div>
+              <h3>Pediatrics</h3>
+              <p>For children’s fever, cough, stomach pain, rash, or general pediatric symptoms.</p>
+              <span class="clinic-meta">Children</span>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section class="coordinator-section" id="coordinator">
+        <div class="container coordinator-layout">
+          <div class="section-header reveal" style="margin-bottom:0;">
+            <span class="eyebrow">Coordinator</span>
+            <h2 class="section-title">What does a medical coordinator do?</h2>
+            <p class="section-desc">
+              A medical coordinator helps foreign visitors communicate with hospitals, organize symptoms,
+              understand basic clinic procedures, and reduce language barriers during medical visits.
+            </p>
+          </div>
+
+          <div class="coordinator-card reveal">
+            <div class="coordinator-profile">
+              <div class="profile-avatar">👩‍⚕️</div>
+              <div>
+                <h3>GraceLink Coordinator</h3>
+                <p>Communication support · Clinic guidance · Visit preparation</p>
+              </div>
+            </div>
+
+            <div class="role-list">
+              <div class="role-item"><span>✓</span> Symptom summary support</div>
+              <div class="role-item"><span>✓</span> Hospital communication assistance</div>
+              <div class="role-item"><span>✓</span> Clinic visit guidance</div>
+              <div class="role-item"><span>✓</span> Reservation support request</div>
+              <div class="role-item"><span>✓</span> Post-visit basic guidance</div>
+            </div>
+          </div>
+
+          <div class="coordinator-card reveal">
+            <div class="conversation-demo" aria-label="Coordinator conversation example">
+              <div class="chat-bubble user">
+                I have a sore throat and fever. I do not speak Korean.
+              </div>
+              <div class="chat-bubble coordinator">
+                I will help organize your symptoms and guide you to a suitable clinic category.
+              </div>
+              <div class="chat-bubble doctor">
+                Symptom summary prepared: fever, sore throat, onset yesterday, no known allergy.
+              </div>
+              <div class="chat-bubble coordinator">
+                Please bring your passport and arrive 10 minutes early for reception.
+              </div>
+            </div>
+          </div>
+
+          <div class="section-header reveal" style="margin-bottom:0;">
+            <span class="eyebrow green">Communication Example</span>
+            <h2 class="section-title">Clear symptom summary before the visit.</h2>
+            <p class="section-desc">
+              GraceLink is designed to help users convert confusing symptoms into a clearer visit-ready summary.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <section class="section" id="pricing">
+        <div class="container">
+          <div class="section-header reveal">
+            <span class="eyebrow">Pricing</span>
+            <h2 class="section-title">Simple service packages for early launch.</h2>
+            <p class="section-desc">
+              Pricing is a UI demo. You can later connect payment through PortOne, Stripe, Toss Payments, or other PG services.
+            </p>
+          </div>
+
+          <div class="pricing-grid">
+            <article class="price-card reveal">
+              <h3>Free Guide</h3>
+              <p class="price-desc">Basic information for visitors who need quick guidance.</p>
+              <div class="price">
+                <strong>Free</strong>
+              </div>
+              <ul class="price-list">
+                <li>Basic hospital guide</li>
+                <li>Clinic category explanation</li>
+                <li>Emergency 119 information</li>
+                <li>Self-check preparation tips</li>
+              </ul>
+              <a href="#clinics" class="btn btn-secondary" style="width:100%;">View Clinics</a>
+            </article>
+
+            <article class="price-card featured reveal">
+              <span class="popular-label">Popular</span>
+              <h3>Coordinator Request</h3>
+              <p class="price-desc">For users who need help preparing hospital communication.</p>
+              <div class="price">
+                <strong>$4.99</strong>
+                <span>/ request</span>
+              </div>
+              <ul class="price-list">
+                <li>Symptom organization</li>
+                <li>Coordinator matching request</li>
+                <li>Hospital communication support</li>
+                <li>Clinic visit preparation</li>
+              </ul>
+              <a href="#request" class="btn btn-primary" style="width:100%;">Request Help</a>
+            </article>
+
+            <article class="price-card reveal">
+              <h3>Priority Support</h3>
+              <p class="price-desc">For users who need faster review and more detailed guidance.</p>
+              <div class="price">
+                <strong>$9.99</strong>
+                <span>/ request</span>
+              </div>
+              <ul class="price-list">
+                <li>Faster coordinator review</li>
+                <li>Reservation support request</li>
+                <li>Detailed visit guidance</li>
+                <li>Post-visit basic support</li>
+              </ul>
+              <a href="#request" class="btn btn-dark" style="width:100%;">Get Priority</a>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section class="section" id="faq">
+        <div class="container faq-layout">
+          <div class="faq-note reveal">
+            <span class="eyebrow green">FAQ</span>
+            <h3>Important service boundaries</h3>
+            <p>
+              GraceLink supports communication and coordination. It is not a hospital,
+              does not diagnose, and does not replace emergency services.
+            </p>
+          </div>
+
+          <div class="faq-list reveal">
+            <div class="faq-item open">
+              <button class="faq-question" type="button">
+                <span>Is GraceLink a hospital?</span>
+                <span class="plus">+</span>
+              </button>
+              <div class="faq-answer">
+                <div class="faq-answer-inner">
+                  No. GraceLink is not a hospital. We connect foreign visitors with medical coordinators
+                  and help guide them to suitable medical services.
+                </div>
+              </div>
+            </div>
+
+            <div class="faq-item">
+              <button class="faq-question" type="button">
+                <span>Can GraceLink handle emergencies?</span>
+                <span class="plus">+</span>
+              </button>
+              <div class="faq-answer">
+                <div class="faq-answer-inner">
+                  No. If this is a medical emergency in Korea, call 119 immediately.
+                  GraceLink is not an emergency medical service.
+                </div>
+              </div>
+            </div>
+
+            <div class="faq-item">
+              <button class="faq-question" type="button">
+                <span>Can I use GraceLink if I don’t speak Korean?</span>
+                <span class="plus">+</span>
+              </button>
+              <div class="faq-answer">
+                <div class="faq-answer-inner">
+                  Yes. GraceLink is designed for foreign visitors who need help communicating with Korean hospitals.
+                </div>
+              </div>
+            </div>
+
+            <div class="faq-item">
+              <button class="faq-question" type="button">
+                <span>Does GraceLink provide medical diagnosis?</span>
+                <span class="plus">+</span>
+              </button>
+              <div class="faq-answer">
+                <div class="faq-answer-inner">
+                  No. Only licensed medical professionals can provide diagnosis and treatment.
+                  GraceLink helps with communication and coordination.
+                </div>
+              </div>
+            </div>
+
+            <div class="faq-item">
+              <button class="faq-question" type="button">
+                <span>Can GraceLink help with hospital reservations?</span>
+                <span class="plus">+</span>
+              </button>
+              <div class="faq-answer">
+                <div class="faq-answer-inner">
+                  Depending on availability, GraceLink may help request or guide hospital reservation procedures.
+                  The actual appointment depends on the hospital or clinic.
+                </div>
+              </div>
+            </div>
+
+            <div class="faq-item">
+              <button class="faq-question" type="button">
+                <span>What information should I prepare?</span>
+                <span class="plus">+</span>
+              </button>
+              <div class="faq-answer">
+                <div class="faq-answer-inner">
+                  Prepare your symptoms, when they started, current location, preferred language,
+                  passport, insurance information if available, and any medication you have taken.
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="section" id="contact">
+        <div class="container">
+          <div class="contact-card reveal">
+            <div>
+              <h2>Need hospital communication support in Korea?</h2>
+              <p>
+                Start with a simple request. GraceLink helps foreign visitors prepare for a hospital visit
+                with clearer communication and coordinator support.
+              </p>
+            </div>
+            <a href="#request" class="btn btn-primary">Request Help Now</a>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="footer">
+      <div class="container">
+        <div class="footer-grid">
+          <div>
+            <div class="footer-logo">
+              <span class="logo-mark">G</span>
+              <span>GraceLink</span>
+            </div>
+            <p>
+              Medical coordinator connection service for foreign visitors in Korea.
+              GraceLink helps reduce language barriers during hospital visits.
+            </p>
+          </div>
+
+          <div>
+            <h3>Menu</h3>
+            <div class="footer-links">
+              <a href="#home">Home</a>
+              <a href="#how">How It Works</a>
+              <a href="#request">Request Help</a>
+              <a href="#clinics">Find Clinics</a>
+              <a href="#faq">FAQ</a>
+            </div>
+          </div>
+
+          <div>
+            <h3>Notice</h3>
+            <p>
+              GraceLink is not a medical institution and does not provide medical diagnosis,
+              treatment, or emergency services. For emergencies in Korea, call 119.
+            </p>
+          </div>
+        </div>
+
+        <div class="footer-bottom">
+          <span>© 2026 GraceLink. All rights reserved.</span>
+          <span>GraceLink — Your medical communication bridge in Korea.</span>
+        </div>
+      </div>
+    </footer>
+
+    <a href="#request" class="floating-help" aria-label="Request GraceLink help">
+      <span>💬</span>
+      <span>Need Help?</span>
+    </a>
+
+    <div class="modal-backdrop" id="successModal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+      <div class="modal">
+        <div class="modal-icon">✓</div>
+        <h2 id="modalTitle">Your request has been received.</h2>
+        <p>
+          A GraceLink coordinator will review your information and guide you to the next step.
+          This is a front-end demo, so no data has been sent to a server yet.
+        </p>
+        <div class="request-number">
+          Request ID: <strong id="requestId">GL-000000</strong>
+        </div>
+        <button class="btn btn-primary" type="button" id="closeModalBtn" style="width:100%;">Back to Home</button>
+      </div>
+    </div>
+
+    <div class="toast" id="toast">Sample information has been filled.</div>
+  </div>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+      const header = document.getElementById("header");
+      const menuToggle = document.getElementById("menuToggle");
+      const mobilePanel = document.getElementById("mobilePanel");
+      const navLinks = document.querySelectorAll(".nav-link");
+      const mobileLinks = mobilePanel.querySelectorAll("a");
+      const faqItems = document.querySelectorAll(".faq-item");
+      const helpForm = document.getElementById("helpForm");
+      const urgencySelect = document.getElementById("urgency");
+      const emergencyBox = document.getElementById("emergencyBox");
+      const successModal = document.getElementById("successModal");
+      const closeModalBtn = document.getElementById("closeModalBtn");
+      const requestIdEl = document.getElementById("requestId");
+      const sampleFillBtn = document.getElementById("sampleFillBtn");
+      const toast = document.getElementById("toast");
+      const revealTargets = document.querySelectorAll(".reveal");
+
+      function handleHeaderScroll() {
+        if (window.scrollY > 12) {
+          header.classList.add("scrolled");
+        } else {
+          header.classList.remove("scrolled");
+        }
+      }
+
+      handleHeaderScroll();
+      window.addEventListener("scroll", handleHeaderScroll);
+
+      function closeMobileMenu() {
+        menuToggle.classList.remove("open");
+        mobilePanel.classList.remove("open");
+        document.body.classList.remove("no-scroll");
+        menuToggle.setAttribute("aria-expanded", "false");
+      }
+
+      function toggleMobileMenu() {
+        const isOpen = menuToggle.classList.toggle("open");
+        mobilePanel.classList.toggle("open", isOpen);
+        document.body.classList.toggle("no-scroll", isOpen);
+        menuToggle.setAttribute("aria-expanded", String(isOpen));
+      }
+
+      menuToggle.addEventListener("click", toggleMobileMenu);
+
+      mobileLinks.forEach(function (link) {
+        link.addEventListener("click", closeMobileMenu);
+      });
+
+      document.addEventListener("keydown", function (event) {
+        if (event.key === "Escape") {
+          closeMobileMenu();
+          closeModal();
+        }
+      });
+
+      function updateActiveNav() {
+        const sections = ["home", "how", "request", "clinics", "pricing", "faq"]
+          .map(function (id) {
+            return document.getElementById(id);
+          })
+          .filter(Boolean);
+
+        let currentId = "home";
+
+        sections.forEach(function (section) {
+          const sectionTop = section.offsetTop - 130;
+          if (window.scrollY >= sectionTop) {
+            currentId = section.id;
+          }
+        });
+
+        navLinks.forEach(function (link) {
+          const href = link.getAttribute("href");
+          link.classList.toggle("active", href === "#" + currentId);
+        });
+      }
+
+      window.addEventListener("scroll", updateActiveNav);
+      updateActiveNav();
+
+      faqItems.forEach(function (item) {
+        const button = item.querySelector(".faq-question");
+        const answer = item.querySelector(".faq-answer");
+
+        function setAnswerHeight() {
+          if (item.classList.contains("open")) {
+            answer.style.maxHeight = answer.scrollHeight + "px";
+          } else {
+            answer.style.maxHeight = "0px";
+          }
+        }
+
+        setAnswerHeight();
+
+        button.addEventListener("click", function () {
+          const isOpen = item.classList.contains("open");
+
+          faqItems.forEach(function (otherItem) {
+            otherItem.classList.remove("open");
+            const otherAnswer = otherItem.querySelector(".faq-answer");
+            if (otherAnswer) {
+              otherAnswer.style.maxHeight = "0px";
+            }
+          });
+
+          if (!isOpen) {
+            item.classList.add("open");
+            answer.style.maxHeight = answer.scrollHeight + "px";
+          }
+        });
+
+        window.addEventListener("resize", setAnswerHeight);
+      });
+
+      urgencySelect.addEventListener("change", function () {
+        const isEmergency = urgencySelect.value === "emergency";
+        emergencyBox.classList.toggle("show", isEmergency);
+
+        if (isEmergency) {
+          showToast("Emergency selected. Please call 119 immediately if this is urgent.");
+        }
+      });
+
+      function createRequestId() {
+        const now = new Date();
+        const datePart = String(now.getFullYear()).slice(-2)
+          + String(now.getMonth() + 1).padStart(2, "0")
+          + String(now.getDate()).padStart(2, "0");
+        const randomPart = Math.floor(Math.random() * 9000 + 1000);
+        return "GL-" + datePart + "-" + randomPart;
+      }
+
+      function openModal() {
+        requestIdEl.textContent = createRequestId();
+        successModal.classList.add("show");
+        document.body.classList.add("no-scroll");
+      }
+
+      function closeModal() {
+        successModal.classList.remove("show");
+        document.body.classList.remove("no-scroll");
+      }
+
+      closeModalBtn.addEventListener("click", function () {
+        closeModal();
+        window.location.hash = "home";
+      });
+
+      successModal.addEventListener("click", function (event) {
+        if (event.target === successModal) {
+          closeModal();
+        }
+      });
+
+      helpForm.addEventListener("submit", function (event) {
+        event.preventDefault();
+
+        if (!helpForm.checkValidity()) {
+          helpForm.reportValidity();
+          return;
+        }
+
+        if (urgencySelect.value === "emergency") {
+          emergencyBox.classList.add("show");
+          showToast("For emergencies in Korea, call 119 immediately.");
+        }
+
+        openModal();
+        helpForm.reset();
+        emergencyBox.classList.remove("show");
+      });
+
+      sampleFillBtn.addEventListener("click", function () {
+        document.getElementById("name").value = "Grace Kim";
+        document.getElementById("nationality").value = "Singapore";
+        document.getElementById("language").value = "English";
+        document.getElementById("location").value = "Myeongdong, Seoul";
+        document.getElementById("department").value = "ENT";
+        document.getElementById("urgency").value = "today";
+        document.getElementById("reservation").value = "Yes, please help";
+        document.getElementById("contact").value = "WhatsApp";
+        document.getElementById("symptoms").value = "I have a sore throat and mild fever since yesterday. I do not speak Korean and need help visiting a clinic.";
+        document.getElementById("message").value = "I am staying near Myeongdong Station and prefer an English-speaking coordinator.";
+        document.getElementById("consent").checked = true;
+        emergencyBox.classList.remove("show");
+        showToast("Sample information has been filled.");
+      });
+
+      function showToast(message) {
+        toast.textContent = message;
+        toast.classList.remove("show");
+
+        window.requestAnimationFrame(function () {
+          toast.classList.add("show");
+        });
+
+        window.clearTimeout(showToast.timer);
+        showToast.timer = window.setTimeout(function () {
+          toast.classList.remove("show");
+        }, 2200);
+      }
+
+      if ("IntersectionObserver" in window) {
+        const observer = new IntersectionObserver(function (entries) {
+          entries.forEach(function (entry) {
+            if (entry.isIntersecting) {
+              entry.target.classList.add("visible");
+              observer.unobserve(entry.target);
+            }
+          });
+        }, {
+          threshold: 0.12
+        });
+
+        revealTargets.forEach(function (target) {
+          observer.observe(target);
+        });
+      } else {
+        revealTargets.forEach(function (target) {
+          target.classList.add("visible");
+        });
+      }
+
+      document.querySelectorAll('a[href^="#"]').forEach(function (anchor) {
+        anchor.addEventListener("click", function (event) {
+          const targetId = anchor.getAttribute("href");
+          const target = document.querySelector(targetId);
+
+          if (!target) {
+            return;
+          }
+
+          event.preventDefault();
+          closeMobileMenu();
+
+          const top = target.getBoundingClientRect().top + window.scrollY - 82;
+
+          window.scrollTo({
+            top: top,
+            behavior: "smooth"
+          });
+
+          history.pushState(null, "", targetId);
+        });
+      });
+    });
+  </script>
+</body>
+</html>
